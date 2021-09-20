@@ -1,10 +1,12 @@
-import os
+import os, socket
 import dropbox
 
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 from pyftpdlib.authorizers import DummyAuthorizer
   
+ip = socket.gethostbyname(socket.gethostname())
+
 
 # class for dropbox
 class TransferData:
@@ -46,7 +48,7 @@ class MyHandler(FTPHandler):
         access_token = '8cav-lnOtoIAAAAAAAAAAWQD0QUTmG7Zk1xA0izMY5fpB-uljUUfpk9JmelGX4jj'
         transferData = TransferData(access_token)
         file_from = file
-        file_to = f'/test/{file.rsplit("/", 1)[-1]}'
+        file_to = '/test/' + file.rsplit("/", 1)[-1]
         transferData.upload_file(file_from, file_to)
         print("the file is received")
     
@@ -70,7 +72,7 @@ def main():
 
     handler = MyHandler
     handler.authorizer = authorizer
-    server = FTPServer(('0.0.0.0', 2121), handler)
+    server = FTPServer((ip, 2121), handler)
     server.serve_forever()
 
 if __name__ == "__main__":
