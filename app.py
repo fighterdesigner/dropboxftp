@@ -1,4 +1,4 @@
-import os, socket
+import os
 import dropbox
 
 from pyftpdlib.handlers import FTPHandler
@@ -6,8 +6,6 @@ from pyftpdlib.servers import FTPServer
 from pyftpdlib.authorizers import UnixAuthorizer
 from pyftpdlib.filesystems import UnixFilesystem
   
-ip = socket.gethostbyname(socket.gethostname()) 
-
 
 # class for dropbox
 class TransferData:
@@ -73,7 +71,7 @@ def main():
 
     handler = MyHandler
     handler.authorizer = authorizer
-    server = FTPServer((ip, 2121), handler)
+    server = FTPServer(('0.0.0.0', 2121), handler)
     server.serve_forever()
 
 if __name__ == "__main__":
