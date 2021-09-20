@@ -3,8 +3,7 @@ import dropbox
 
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
-from pyftpdlib.authorizers import UnixAuthorizer
-from pyftpdlib.filesystems import UnixFilesystem
+from pyftpdlib.authorizers import DummyAuthorizer
   
 
 # class for dropbox
@@ -65,9 +64,9 @@ class MyHandler(FTPHandler):
 
 def main():
 
-    authorizer = UnixAuthorizer(rejected_users=["root"], require_valid_shell=True)
+    authorizer = DummyAuthorizer()
     authorizer.add_user('user', '12345', homedir='./files', perm='elradfmwMT')
-    authorizer.add_anonymous(homedir='.')
+    authorizer.add_anonymous(homedir='./files')
 
     handler = MyHandler
     handler.authorizer = authorizer
